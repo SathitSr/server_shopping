@@ -61,7 +61,8 @@ app.get("/api/promotion", async (req, res) => {
 // feature cart //
 //product in cart
 app.get("/api/cart", async (req, res) => {
-  var product_in_cart = carts.filter((el) => el.user_id == req.body.user_id);
+  console.log("check req : ", req.query.user_id);
+  var product_in_cart = carts.filter((el) => el.user_id == req.query.user_id);
   res.send(product_in_cart);
 });
 
@@ -93,7 +94,13 @@ app.post("/api/checkout", async (req, res) => {
 
 //feature profile//
 app.get("/api/users", (req, res) => {
-  let tempUser = users.filter((item) => item.id === req.body.user_id);
+  let tempUser = [];
+  users.map((el) => {
+    if (parseInt(el.id) === parseInt(req.query.user_id)) {
+      tempUser.push(el);
+    }
+  });
+
   res.send(tempUser);
 });
 
